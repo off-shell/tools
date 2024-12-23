@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Custom HTTP Client</h1>
+<form method="post" action="/http-client/send_request">
+    <label for="url">URL:</label>
+    <input type="text" id="url" name="url" placeholder="Enter URL" required>
+    <button type="submit">Kirim Permintaan</button>
+</form>
+
+{% if request_headers %}
+<h2>Request Headers</h2>
+<textarea rows="10">{{ request_headers }}</textarea>
+{% endif %}
+
+{% if response %}
+<h2>Response</h2>
+<textarea rows="10">{{ response }}</textarea>
+<h3>Response Headers:</h3>
+<textarea rows="10">{{ response_headers }}</textarea>
+{% endif %}
+{% endblock %}

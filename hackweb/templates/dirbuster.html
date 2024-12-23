@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>URL Fuzzer (DirBuster)</h1>
+<form id="dirbuster-form" method="post" action="/dirbuster">
+    <label for="target_url">Target URL:</label>
+    <input type="text" id="target_url" name="target_url" placeholder="Enter target URL" required>
+
+    <label for="wordlist_url">Wordlist URL:</label>
+    <input type="text" id="wordlist_url" name="wordlist_url" placeholder="Enter wordlist URL" required>
+
+    <label for="user_agent">User-Agent:</label>
+    <input type="text" id="user_agent" name="user_agent" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36">
+
+    <label for="delay">Request Delay (seconds):</label>
+    <input type="number" id="delay" name="delay" value="1.0" step="0.1" min="0.1">
+
+    <button type="submit">Start Fuzzing</button>
+</form>
+
+<div id="result-table">
+    {% if results %}
+    <h3>Results</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>URL</th>
+                <th>Status</th>
+                <th>Size (bytes)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+            <tr>
+                <td>{{ result.url }}</td>
+                <td>{{ result.status }}</td>
+                <td>{{ result.size }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No results to display yet.</p>
+    {% endif %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('#dirbuster-form').on('submit', function(e) {
+        e.preventDefault(); // Mencegah form melakukan submit biasa
+        var formData = $(this).serialize(); // Ambil data dari form
+
+        $.ajax({
+            url: '/dirbuster',
+            type: 'POST',
+            data: formData,
+            success: function(response) {
+                $('#result-table').html(response); // Perbarui konten halaman dengan hasil baru
+            },
+            error: function(xhr, status, error) {
+                alert('There was an error: ' + error);
+            }
+        });
+    });
+</script>
+{% endblock %}
