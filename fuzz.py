@@ -67,4 +67,4 @@ def test_xss_bypass(url, use_proxy=False, use_random_agent=False):
     print("\n🔥 Simbol yang berhasil lolos WAF:", "".join(valid_symbols))
 
 # 🔥 Contoh penggunaan
-test_xss_bypass("https://www.dana.id/help-center/search?search={simbolrandom}", use_proxy=False, use_random_agent=True)
+test_xss_bypass("https://www.target.id/help-center/search?search={simbolrandom}", use_proxy=False, use_random_agent=True)
